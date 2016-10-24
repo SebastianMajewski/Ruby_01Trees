@@ -224,17 +224,3 @@ module BinaryTree
     end
   end
 end
-
-tree = BinaryTree::Node.new(10)
-tree.insert(3)
-tree.insert(4)
-tree.insert(91)
-tree.print_values
-
-tree.delete_value(10)
-tree.write_height_of_tree
-
-tree.print_values
-tree.write_min
-tree.write_max
-tree.write_node_count
