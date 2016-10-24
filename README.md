@@ -1,0 +1,1 @@
+Testowanie aplikacji w Ruby - knaroznik@inf.ug.edu.pl
