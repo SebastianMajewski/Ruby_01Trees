@@ -46,6 +46,7 @@ module BinaryTree
       valuesright.each do |value|
         values.push(value) unless value.nil?
       end
+
       puts "Variables in tree (sorted) : #{values.sort}" if parent.nil?
       values
     end
@@ -92,7 +93,7 @@ module BinaryTree
       valuesright.each do |value|
         values.push(value) unless value.nil?
       end
-      puts "Minimum in tree : #{values.sort[values.length - 1]}" if parent.nil?
+      puts "Maximum in tree : #{values.sort[values.length - 1]}" if parent.nil?
       values
     end
 
@@ -111,19 +112,31 @@ module BinaryTree
           end
 
         elsif left.class != EmptyNode
-          left.parent = parent
-
-          if parent.left == self
-            parent.left = left
-          elsif parent.right == left
+          if parent.nil?
+            # puts "Cant delete root"
+            self.value = left.value
+            self.right = left.right
+            self.left = left.left
+          else
+            left.parent = parent
+            if parent.left == self
+              parent.left = left
+            else
+              parent.right = left
+            end
           end
         elsif right.class != EmptyNode
-          right.parent = parent
-
-          if parent.left == self
-            parent.left = right
+          if parent.nil?
+            self.value = right.value
+            self.left = right.left
+            self.right = right.right
           else
-            parent.right = right
+            right.parent = parent
+            if parent.left == self
+              parent.left = right
+            else
+              parent.right = right
+            end
           end
         else
           if parent.left == self
