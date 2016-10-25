@@ -1,8 +1,12 @@
+require_relative 'empty_node'
+
 module BinaryTree
   # Node
   class Node
     attr_reader :count
     attr_accessor :left, :right, :parent, :value
+
+    # Implementation
 
     def initialize(v)
       @value = v
@@ -152,6 +156,8 @@ module BinaryTree
       end
     end
 
+    # Tests :
+    
     private
 
     def insert_left(v)
@@ -211,29 +217,6 @@ module BinaryTree
       size += @left.size if left.class != EmptyNode
       size += @right.size if right.class != EmptyNode
       size
-    end
-  end
-
-  # Empty Node
-  class EmptyNode
-    def check_node(*)
-      false
-    end
-
-    def insert(*)
-      false
-    end
-
-    def get_height(*)
-      -1
-    end
-
-    def delete_value(*)
-      puts 'No value in tree'
-    end
-
-    def print_values
-      0
     end
   end
 end

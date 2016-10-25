@@ -1,4 +1,4 @@
-require_relative 'binary_tree'
+require_relative 'node'
 
 tree = BinaryTree::Node.new(10)
 
