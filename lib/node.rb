@@ -9,6 +9,7 @@ module BinaryTree
     # Implementation
 
     def initialize(v)
+      # TODO : What if v is an Array?
       @value = v
       @left = EmptyNode.new
       @right = EmptyNode.new
@@ -157,7 +158,31 @@ module BinaryTree
     end
 
     # Tests :
-    
+
+    def get_max
+      values = []
+      valuesleft = []
+      valuesright = []
+
+      values.push(value)
+      valuesleft = left.print_values if left.class != EmptyNode
+      valuesright = right.print_values if right.class != EmptyNode
+      valuesleft.each do |value|
+        values.push(value) unless value.nil?
+      end
+      valuesright.each do |value|
+        values.push(value) unless value.nil?
+      end
+      if parent.nil?
+        v = values.sort[values.length - 1]
+        return v.to_int
+      end
+      values
+    end
+
+    def get_node_count
+      size
+    end
     private
 
     def insert_left(v)
