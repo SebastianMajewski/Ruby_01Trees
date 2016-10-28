@@ -7,16 +7,35 @@ module BinaryTree
     attr_accessor :left, :right, :parent, :value
 
     # Implementation
-
+    # Init
     def initialize(v)
-      # TODO : What if v is an Array?
+      if v.class == Array
+        init_array(v)
+      else
+        init_int(v)
+      end
+    end
+
+    def init_array(v)
+      @value = v[0]
+      @left = EmptyNode.new
+      @right = EmptyNode.new
+      @parent = nil
+      @count = 1
+      v.delete(v[0])
+      v.each do |number|
+        insert(number)
+      end
+    end
+
+    def init_int(v)
       @value = v
       @left = EmptyNode.new
       @right = EmptyNode.new
       @parent = nil
       @count = 1
     end
-
+    #
     def write_node_count
       puts "Number of elements : #{size}"
     end
@@ -31,30 +50,32 @@ module BinaryTree
 
     def in_tree?(v)
       if check_node(v)
-        puts "#{v} is on tree!"
+        # puts "#{v} is on tree!"
+        true
       else
-        puts "#{v} is not on tree!"
+        # puts "#{v} is not on tree!"
+        false
       end
     end
 
-    def print_values
-      values = []
-      valuesleft = []
-      valuesright = []
+     def print_values
+       values = []
+       valuesleft = []
+       valuesright = []
 
-      values.push(value)
-      valuesleft = left.print_values if left.class != EmptyNode
-      valuesright = right.print_values if right.class != EmptyNode
-      valuesleft.each do |value|
-        values.push(value) unless value.nil?
-      end
-      valuesright.each do |value|
-        values.push(value) unless value.nil?
-      end
+       values.push(value)
+       valuesleft = left.print_values if left.class != EmptyNode
+       valuesright = right.print_values if right.class != EmptyNode
+       valuesleft.each do |value|
+         values.push(value) unless value.nil?
+       end
+       valuesright.each do |value|
+         values.push(value) unless value.nil?
+       end
 
-      puts "Variables in tree (sorted) : #{values.sort}" if parent.nil?
-      values
-    end
+       puts "Variables in tree (sorted) : #{values.sort}" if parent.nil?
+       values
+     end
 
     def write_height_of_tree
       l = get_height(left)
@@ -67,44 +88,15 @@ module BinaryTree
     end
 
     def write_min
-      values = []
-      valuesleft = []
-      valuesright = []
-
-      values.push(value)
-      valuesleft = left.print_values if left.class != EmptyNode
-      valuesright = right.print_values if right.class != EmptyNode
-      valuesleft.each do |value|
-        values.push(value) unless value.nil?
-      end
-      valuesright.each do |value|
-        values.push(value) unless value.nil?
-      end
-      puts "Minimum in tree : #{values.sort[0]}" if parent.nil?
-      values
+      puts "Minimum in tree : #{get_min}" if parent.nil?
     end
 
     def write_max
-      values = []
-      valuesleft = []
-      valuesright = []
-
-      values.push(value)
-      valuesleft = left.print_values if left.class != EmptyNode
-      valuesright = right.print_values if right.class != EmptyNode
-      valuesleft.each do |value|
-        values.push(value) unless value.nil?
-      end
-      valuesright.each do |value|
-        values.push(value) unless value.nil?
-      end
-      puts "Maximum in tree : #{values.sort[values.length - 1]}" if parent.nil?
-      values
+      puts "Maximum in tree : #{get_max}"
     end
 
     def delete_value(v)
       if value == v
-        puts "Deleting #{value}"
         if left.class != EmptyNode && right.class != EmptyNode
 
           x = get_max_node(left)
@@ -180,9 +172,31 @@ module BinaryTree
       values
     end
 
+    def get_min
+      values = []
+      valuesleft = []
+      valuesright = []
+
+      values.push(value)
+      valuesleft = left.print_values if left.class != EmptyNode
+      valuesright = right.print_values if right.class != EmptyNode
+      valuesleft.each do |value|
+        values.push(value) unless value.nil?
+      end
+      valuesright.each do |value|
+        values.push(value) unless value.nil?
+      end
+      if parent.nil?
+        v = values.sort[0]
+        return v.to_int
+      end
+      values
+    end
+
     def get_node_count
       size
     end
+
     private
 
     def insert_left(v)
