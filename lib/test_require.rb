@@ -2,23 +2,20 @@ require_relative 'node'
 
 tree = BinaryTree::Node.new(10)
 
-# Insert
-tree.insert(18)
 tree.insert(3)
+tree.insert(91)
+tree.insert(1)
+tree.insert(100)
 
-# Is in tree
+tree.print_values
 
-tree.in_tree?(5)
-tree.in_tree?(10)
-
-# Delete :
-
-tree.delete_value(10)
-tree.write_node_count
-
-# Min / Max
 tree.write_max
 tree.write_min
+
+tree.delete_value(10)
+
+tree.print_values
+tree.write_node_count
 
 # MIN and MAX : BEING< INTEGER, GOOD Number
 # WRITE NODE COUNT : Being, INTEGER, GOOD NUMBER

@@ -7,6 +7,7 @@ module BinaryTree
     attr_accessor :left, :right, :parent, :value
 
     # Implementation
+
     # Init
     def initialize(v)
       if v.class == Array
@@ -35,7 +36,9 @@ module BinaryTree
       @parent = nil
       @count = 1
     end
-    #
+
+    # Node Count
+
     def write_node_count
       puts "Number of elements : #{size}"
     end
@@ -58,24 +61,26 @@ module BinaryTree
       end
     end
 
-     def print_values
-       values = []
-       valuesleft = []
-       valuesright = []
+    def return_values_under_node
+      values = []
+      valuesleft = []
+      valuesright = []
+      values.push(value)
+      valuesleft = left.return_values_under_node if left.class != EmptyNode
+      valuesright = right.return_values_under_node if right.class != EmptyNode
+      valuesleft.each do |value|
+        values.push(value) unless value.nil?
+      end
+      valuesright.each do |value|
+        values.push(value) unless value.nil?
+      end
+      values
+    end
 
-       values.push(value)
-       valuesleft = left.print_values if left.class != EmptyNode
-       valuesright = right.print_values if right.class != EmptyNode
-       valuesleft.each do |value|
-         values.push(value) unless value.nil?
-       end
-       valuesright.each do |value|
-         values.push(value) unless value.nil?
-       end
-
-       puts "Variables in tree (sorted) : #{values.sort}" if parent.nil?
-       values
-     end
+    def print_values
+      values = return_values_under_node
+      puts "Variables in tree (sorted) : #{values.sort}"
+    end
 
     def write_height_of_tree
       l = get_height(left)
@@ -88,60 +93,16 @@ module BinaryTree
     end
 
     def write_min
-      puts "Minimum in tree : #{get_min}" if parent.nil?
+      puts "Minimum in tree : #{return_min_in_node}" if parent.nil?
     end
 
     def write_max
-      puts "Maximum in tree : #{get_max}"
+      puts "Maximum in tree : #{return_max_in_node}"
     end
 
     def delete_value(v)
       if value == v
-        if left.class != EmptyNode && right.class != EmptyNode
-
-          x = get_max_node(left)
-          self.value = x.value
-
-          if x == x.parent.left
-            x.parent.left = EmptyNode.new
-          else
-            x.parent.right = EmptyNode.new
-          end
-
-        elsif left.class != EmptyNode
-          if parent.nil?
-            # puts "Cant delete root"
-            self.value = left.value
-            self.right = left.right
-            self.left = left.left
-          else
-            left.parent = parent
-            if parent.left == self
-              parent.left = left
-            else
-              parent.right = left
-            end
-          end
-        elsif right.class != EmptyNode
-          if parent.nil?
-            self.value = right.value
-            self.left = right.left
-            self.right = right.right
-          else
-            right.parent = parent
-            if parent.left == self
-              parent.left = right
-            else
-              parent.right = right
-            end
-          end
-        else
-          if parent.left == self
-            parent.left = EmptyNode.new
-          else
-            parent.right = EmptyNode.new
-          end
-        end
+        delete_node
       elsif value < v
         right.delete_value(v)
       else
@@ -149,51 +110,83 @@ module BinaryTree
       end
     end
 
-    # Tests :
-
-    def get_max
-      values = []
-      valuesleft = []
-      valuesright = []
-
-      values.push(value)
-      valuesleft = left.print_values if left.class != EmptyNode
-      valuesright = right.print_values if right.class != EmptyNode
-      valuesleft.each do |value|
-        values.push(value) unless value.nil?
+    def delete_node
+      if left.class != EmptyNode && right.class != EmptyNode
+        delete_with_both_sides
+      elsif left.class != EmptyNode
+        delete_with_left_side
+      elsif right.class != EmptyNode
+        delete_with_right_side
+      else
+        delete_without_children
       end
-      valuesright.each do |value|
-        values.push(value) unless value.nil?
-      end
-      if parent.nil?
-        v = values.sort[values.length - 1]
-        return v.to_int
-      end
-      values
     end
 
-    def get_min
-      values = []
-      valuesleft = []
-      valuesright = []
-
-      values.push(value)
-      valuesleft = left.print_values if left.class != EmptyNode
-      valuesright = right.print_values if right.class != EmptyNode
-      valuesleft.each do |value|
-        values.push(value) unless value.nil?
-      end
-      valuesright.each do |value|
-        values.push(value) unless value.nil?
-      end
-      if parent.nil?
-        v = values.sort[0]
-        return v.to_int
-      end
-      values
+    def delete_with_both_sides
+      x = get_max_node(left).value
+      delete_value(x)
+      self.value = x
     end
 
-    def get_node_count
+    def delete_with_left_side
+      if parent.nil?
+        delete_root('left')
+      else
+        left.parent = parent
+        if parent.left == self
+          parent.left = left
+        else
+          parent.right = left
+        end
+      end
+    end
+
+    def delete_with_right_side
+      if parent.nil?
+        delete_root('right')
+      else
+        right.parent = parent
+        if parent.left == self
+          parent.left = right
+        else
+          parent.right = right
+        end
+      end
+    end
+
+    def delete_root(option)
+      if option == 'right'
+        self.value = right.value
+        self.left = right.left
+        self.right = right.right
+      else
+        self.value = left.value
+        self.right = left.right
+        self.left = left.left
+      end
+    end
+
+    def delete_without_children
+      if parent.left == self
+        parent.left = EmptyNode.new
+      else
+        parent.right = EmptyNode.new
+      end
+    end
+
+    def return_max_in_node
+      values = return_values_under_node
+      v = values.sort[values.length - 1]
+      v.to_int
+    end
+
+    def return_min_in_node
+      values = return_values_under_node
+      v = values.sort[0]
+      v.to_int
+    end
+
+    def return_node_count
       size
     end
 
