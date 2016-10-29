@@ -6,9 +6,6 @@ module BinaryTree
     attr_reader :count
     attr_accessor :left, :right, :parent, :value
 
-    # Implementation
-
-    # Init
     def initialize(v)
       if v.class == Array
         init_array(v)
@@ -37,12 +34,6 @@ module BinaryTree
       @count = 1
     end
 
-    # Node Count
-
-    def write_node_count
-      puts "Number of elements : #{size}"
-    end
-
     def insert(v)
       case value <=> v
       when 1 then insert_left(v)
@@ -53,10 +44,8 @@ module BinaryTree
 
     def in_tree?(v)
       if check_node(v)
-        # puts "#{v} is on tree!"
         true
       else
-        # puts "#{v} is not on tree!"
         false
       end
     end
@@ -75,29 +64,6 @@ module BinaryTree
         values.push(value) unless value.nil?
       end
       values
-    end
-
-    def print_values
-      values = return_values_under_node
-      puts "Variables in tree (sorted) : #{values.sort}"
-    end
-
-    def write_height_of_tree
-      l = get_height(left)
-      r = get_height(right)
-      if r > l
-        puts "Height is #{r + 2}"
-      else
-        puts "Height is #{l + 2}"
-      end
-    end
-
-    def write_min
-      puts "Minimum in tree : #{return_min_in_node}" if parent.nil?
-    end
-
-    def write_max
-      puts "Maximum in tree : #{return_max_in_node}"
     end
 
     def delete_value(v)
@@ -208,14 +174,6 @@ module BinaryTree
       end
     end
 
-    def get_height(v)
-      return -1 if v.class == EmptyNode
-      l = get_height(v.left)
-      r = get_height(v.right)
-      return r + 1 if r > l
-      l + 1
-    end
-
     protected
 
     def check_node(v)
@@ -229,19 +187,11 @@ module BinaryTree
     end
 
     def check_node_left(v)
-      if left
-        left.check_node(v)
-      else
-        false
-      end
+      left.check_node(v)
     end
 
     def check_node_right(v)
-      if right
-        right.check_node(v)
-      else
-        false
-      end
+      right.check_node(v)
     end
 
     def size

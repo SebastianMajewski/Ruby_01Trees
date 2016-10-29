@@ -17,6 +17,15 @@ RSpec.describe 'node.rb' do
     it 'init only one value' do
       expect(tree.return_node_count).to eq(1)
     end
+    it 'should be defined with Array' do
+      expect { BinaryTree::Node.new([12, 14, 17]) }.not_to raise_error
+    end
+    it 'init with Array returns good values' do
+      expect(bigTree.return_values_under_node).to contain_exactly(3, 6, 5, 9, 7)
+    end
+    it 'init with Array returns good count' do
+      expect(bigTree.return_node_count).to eq(5)
+    end
   end
   describe '#insert' do
     it 'should be defined' do
@@ -68,6 +77,15 @@ RSpec.describe 'node.rb' do
       it 'delete the right value' do
         expect { bigTree.delete_value(9) }.to change { bigTree.in_tree?(9) }.from(true).to (false)
       end
+      it 'delete the root' do
+        expect { tree.insert(5) }.to change { tree.in_tree?(5) }.from(false).to (true)
+        expect { tree.delete_value(10) }.to change { tree.in_tree?(10) }.from(true).to (false)
+      end
+      it 'delete the value between Nodes' do
+        expect { tree.insert(3) }.to change { tree.in_tree?(3) }.from(false).to (true)
+        expect { tree.insert(1) }.to change { tree.in_tree?(1) }.from(false).to (true)
+        expect { tree.delete_value(3) }.to change { tree.in_tree?(3) }.from(true).to (false)
+      end
     end
     context 'when deleting with only right value' do
       it 'reduce node count' do
@@ -75,6 +93,15 @@ RSpec.describe 'node.rb' do
       end
       it 'delete the right value' do
         expect { bigTree.delete_value(3) }.to change { bigTree.in_tree?(3) }.from(true).to (false)
+      end
+      it 'delete the root' do
+        expect { tree.insert(16) }.to change { tree.in_tree?(16) }.from(false).to (true)
+        expect { tree.delete_value(10) }.to change { tree.in_tree?(10) }.from(true).to (false)
+      end
+      it 'delete the value between Nodes' do
+        expect { tree.insert(13) }.to change { tree.in_tree?(13) }.from(false).to (true)
+        expect { tree.insert(16) }.to change { tree.in_tree?(16) }.from(false).to (true)
+        expect { tree.delete_value(13) }.to change { tree.in_tree?(13) }.from(true).to (false)
       end
     end
     context 'when deleting with both values' do
@@ -91,6 +118,19 @@ RSpec.describe 'node.rb' do
       end
       it 'delete the right value' do
         expect { bigTree.delete_value(6) }.to change { bigTree.in_tree?(6) }.from(true).to (false)
+      end
+    end
+    context 'when deleting value that not exists' do
+      it 'do not reduce node count' do
+        expect { bigTree.delete_value(2) }.to_not change { bigTree.return_node_count }
+      end
+    end
+    context 'when deleting with no childer' do
+      it 'reduce node count' do
+        expect { bigTree.delete_value(7) }.to change { bigTree.return_node_count }.by(-1)
+      end
+      it 'delete the right value' do
+        expect { bigTree.delete_value(7) }.to change { bigTree.in_tree?(7) }.from(true).to (false)
       end
     end
   end
