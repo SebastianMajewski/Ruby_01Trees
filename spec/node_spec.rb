@@ -61,20 +61,51 @@ RSpec.describe 'node.rb' do
       expect { bigTree.delete_value(5) }.not_to raise_error
     end
 
-    # add context
-    
-    it 'when deleting with only left value' do
-      expect { bigTree.delete_value(5) }.to change { bigTree.return_node_count }.by(-1)
-      expect { bigTree.delete_value(6) }.to change { bigTree.in_tree?(6) }.from(true).to (false)
+    context 'when deleting with only left value' do
+      it 'reduce node count' do
+        expect { bigTree.delete_value(9) }.to change { bigTree.return_node_count }.by(-1)
+      end
+      it 'delete the right value' do
+        expect { bigTree.delete_value(9) }.to change { bigTree.in_tree?(9) }.from(true).to (false)
+      end
     end
-    it 'when deleting with only right value' do
-      expect { bigTree.delete_value(3) }.to change { bigTree.return_node_count }.by(-1)
+    context 'when deleting with only right value' do
+      it 'reduce node count' do
+        expect { bigTree.delete_value(3) }.to change { bigTree.return_node_count }.by(-1)
+      end
+      it 'delete the right value' do
+        expect { bigTree.delete_value(3) }.to change { bigTree.in_tree?(3) }.from(true).to (false)
+      end
     end
-    it 'when deleting with both values' do
-      expect { bigTree.delete_value(6) }.to change { bigTree.return_node_count }.by(-1)
+    context 'when deleting with both values' do
+      it 'reduce node count' do
+        expect { bigTree.delete_value(6) }.to change { bigTree.return_node_count }.by(-1)
+      end
+      it 'delete the right value' do
+        expect { bigTree.delete_value(6) }.to change { bigTree.in_tree?(6) }.from(true).to (false)
+      end
     end
-    it 'when deleting root' do
-      expect { bigTree.delete_value(6) }.to change { bigTree.return_node_count }.by(-1)
+    context 'when deleting root' do
+      it 'reduce node count' do
+        expect { bigTree.delete_value(6) }.to change { bigTree.return_node_count }.by(-1)
+      end
+      it 'delete the right value' do
+        expect { bigTree.delete_value(6) }.to change { bigTree.in_tree?(6) }.from(true).to (false)
+      end
+    end
+  end
+  describe '#min/max' do
+    it 'max should be defined' do
+      expect { bigTree.return_max_in_node }.not_to raise_error
+    end
+    it 'min should be defined' do
+      expect { bigTree.return_min_in_node }.not_to raise_error
+    end
+    it 'max return good value' do
+      expect(bigTree.return_max_in_node).to eq(9)
+    end
+    it 'min return good value' do
+      expect(bigTree.return_min_in_node).to eq(3)
     end
   end
 end
