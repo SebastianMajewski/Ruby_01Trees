@@ -33,7 +33,7 @@ RSpec.describe 'node.rb' do
     end
     context 'when inserting' do
       it 'good adding max value' do
-        expect { tree.insert(11) }.to change { tree.return_max_in_node}.to(11)
+        expect { tree.insert(11) }.to change { tree.return_max_in_node }.to(11)
       end
       it 'good adding min value' do
         expect { tree.insert(9) }.to change { tree.return_min_in_node }.to(9)

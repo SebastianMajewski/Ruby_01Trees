@@ -159,11 +159,11 @@ module BinaryTree
     private
 
     def insert_left(v)
-      left.insert(v) || self.left = Node.new(v) and left.parent = self
+      left.insert(v) || (self.left = Node.new(v) and (left.parent = self))
     end
 
     def insert_right(v)
-      right.insert(v) || (self.right = Node.new(v) and right.parent = self)
+      right.insert(v) || (self.right = Node.new(v) and (right.parent = self))
     end
 
     def get_max_node(v)

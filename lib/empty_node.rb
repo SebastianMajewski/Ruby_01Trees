@@ -10,7 +10,7 @@ module BinaryTree
     end
 
     def delete_value(*)
-      puts 'No value in tree'
+      # puts 'No value in tree'
     end
   end
 end

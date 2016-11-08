@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/mccorner/Dokumenty/5-rok/rubi/lib/node.rb": [
+      "/home/mccorner/Dokumenty/5-rok/rubi/binary_tree/lib/node.rb": [
         1,
         null,
         1,
@@ -207,7 +207,7 @@
         null,
         null
       ],
-      "/home/mccorner/Dokumenty/5-rok/rubi/lib/empty_node.rb": [
+      "/home/mccorner/Dokumenty/5-rok/rubi/binary_tree/lib/empty_node.rb": [
         1,
         null,
         1,
@@ -220,12 +220,12 @@
         null,
         null,
         1,
-        1,
+        null,
         null,
         null,
         null
       ]
     },
-    "timestamp": 1477773632
+    "timestamp": 1478511709
   }
 }
