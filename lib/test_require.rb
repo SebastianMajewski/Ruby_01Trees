@@ -8,3 +8,5 @@ tree.insert(1)
 tree.insert(100)
 
 tree.delete_value(10)
+
+puts tree.return_values_under_node.to_s

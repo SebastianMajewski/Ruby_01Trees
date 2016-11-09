@@ -1,11 +1,7 @@
 module BinaryTree
   # Empty Node
   class EmptyNode
-    def check_node(*)
-      false
-    end
-
-    def insert(*)
+    def in_tree?(*)
       false
     end
 

@@ -43,18 +43,19 @@ module BinaryTree
     end
 
     def in_tree?(v)
-      if check_node(v)
+      if value == v
         true
-      else
-        false
+      elsif value > v
+        left.in_tree?(v)
+      elsif value < v
+        right.in_tree?(v)
       end
     end
 
     def return_values_under_node
-      values = []
+      values = [value]
       valuesleft = []
       valuesright = []
-      values.push(value)
       valuesleft = left.return_values_under_node if left.class != EmptyNode
       valuesright = right.return_values_under_node if right.class != EmptyNode
       valuesleft.each do |value|
@@ -141,15 +142,15 @@ module BinaryTree
     end
 
     def return_max_in_node
-      values = return_values_under_node
-      v = values.sort[values.length - 1]
-      v.to_int
+      curr_node = self
+      curr_node = curr_node.right while curr_node.right.class != EmptyNode
+      curr_node.value.to_int
     end
 
     def return_min_in_node
-      values = return_values_under_node
-      v = values.sort[0]
-      v.to_int
+      curr_node = self
+      curr_node = curr_node.left while curr_node.left.class != EmptyNode
+      curr_node.value.to_int
     end
 
     def return_node_count
@@ -159,11 +160,21 @@ module BinaryTree
     private
 
     def insert_left(v)
-      left.insert(v) || (self.left = Node.new(v) and (left.parent = self))
+      if left.class == EmptyNode
+        self.left = Node.new(v)
+        left.parent = self
+      else
+        left.insert(v)
+      end
     end
 
     def insert_right(v)
-      right.insert(v) || (self.right = Node.new(v) and (right.parent = self))
+      if right.class == EmptyNode
+        self.right = Node.new(v)
+        right.parent = self
+      else
+        right.insert(v)
+      end
     end
 
     def get_max_node(v)
@@ -175,24 +186,6 @@ module BinaryTree
     end
 
     protected
-
-    def check_node(v)
-      case value <=> v
-      when 1 then
-        check_node_left(v)
-      when -1 then
-        check_node_right(v)
-      when 0 then true
-      end
-    end
-
-    def check_node_left(v)
-      left.check_node(v)
-    end
-
-    def check_node_right(v)
-      right.check_node(v)
-    end
 
     def size
       size = 1
